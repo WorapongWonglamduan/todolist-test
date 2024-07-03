@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: '#add8e6',
+    backgroundColor: '#6750a4',
   },
   itemList: {
-    backgroundColor: '#add8e6',
+    backgroundColor: '#e7e0ec',
     borderRadius: 20,
     marginBottom: 10,
   },
