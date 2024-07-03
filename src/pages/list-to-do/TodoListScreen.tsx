@@ -1,43 +1,38 @@
-import React, {useState} from 'react';
+import React from 'react';
+
 import {View, FlatList, StyleSheet} from 'react-native';
-import {List, IconButton, /* Colors, */ FAB} from 'react-native-paper';
+import {List, IconButton, FAB} from 'react-native-paper';
+import {useContexts} from '../../components/context/ContextProvider';
 
 const TodoListScreen = ({navigation}: any) => {
-  const [todos, setTodos] = useState([
-    {id: 1, title: 'Buy groceries'},
-    {id: 2, title: 'Read a book'},
-  ]);
+  const {listToDos, setListToDos}: any = useContexts();
 
   const deleteTodo = (id: number) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const addTodo = (newTodo: string) => {
-    setTodos([...todos, {id: todos.length + 1, title: newTodo}]);
-  };
-
-  const updateTodo = (updatedTodo: any) => {
-    setTodos(
-      todos.map(todo => (todo.id === updatedTodo.id ? updatedTodo : todo)),
-    );
+    setListToDos(listToDos.filter((todo: any) => todo.id !== id));
   };
 
   const navigateToAddTodo = () => {
-    navigation.navigate('AddTodo', {addTodo});
+    navigation.navigate('AddTodo');
   };
 
   const navigateToEditTodo = (id: number, title: string) => {
-    navigation.navigate('EditTodo', {id, title, updateTodo});
+    navigation.navigate('EditTodo', {id, title});
   };
 
   const renderItem = ({item}: any) => (
     <List.Item
+      style={styles.itemList}
       title={item.title}
       right={() => (
         <>
-          <IconButton icon="pencil" onPress={() => deleteTodo(item.id)} />
+          <IconButton
+            icon="delete"
+            size={20}
+            onPress={() => deleteTodo(item.id)}
+          />
           <IconButton
             icon="pencil"
+            size={20}
             onPress={() => navigateToEditTodo(item.id, item.title)}
           />
         </>
@@ -48,7 +43,7 @@ const TodoListScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={todos}
+        data={listToDos}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         ListEmptyComponent={() => (
@@ -69,15 +64,19 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   emptyContainer: {
-    alignItems: 'center',
-    marginTop: 50,
+    alignSelf: 'center',
   },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: '#6200ee',
+    backgroundColor: '#add8e6',
+  },
+  itemList: {
+    backgroundColor: '#add8e6',
+    borderRadius: 20,
+    marginBottom: 10,
   },
 });
 

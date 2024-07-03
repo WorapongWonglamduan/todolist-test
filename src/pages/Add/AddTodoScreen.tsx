@@ -1,15 +1,20 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import {useContexts} from '../../components/context/ContextProvider';
 
-const AddTodoScreen = ({navigation, route}: any) => {
+const AddTodoScreen = ({navigation}: any) => {
+  const {listToDos, setListToDos}: any = useContexts();
   const [todoText, setTodoText] = useState('');
 
   const handleAddTodo = () => {
     if (todoText.trim()) {
-      route.params.addTodo(todoText); // Call addTodo function passed via navigation params
-      navigation.goBack(); // Navigate back to TodoListScreen
+      addTodo(todoText);
+      navigation.goBack();
     }
+  };
+  const addTodo = (newTodo: string) => {
+    setListToDos([...listToDos, {id: listToDos.length + 1, title: newTodo}]);
   };
 
   return (
